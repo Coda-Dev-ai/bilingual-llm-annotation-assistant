@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg[binary]
+pydantic
+pydantic-settings
+pandas
+huggingface_hub
+streamlit
+python-dotenv
+alembic
+pytest
+jupyter
