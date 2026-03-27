@@ -9,33 +9,30 @@ Runs the following steps:
 Set DATABASE_URL for Postgres, or run as-is to use the SQLite fallback from session.py.
 """
 
-from __future__ import annotations
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from sqlalchemy import select
 
-try:
-    from .crud import create_record
-    from .models import InputRecord
-    from .session import Base, SessionLocal, engine
-except ImportError:  # pragma: no cover - allows direct script execution
-    from crud import create_record
-    from models import InputRecord
-    from session import Base, SessionLocal, engine
+from app.db.crud import create_record
+from app.db.models import InputRecord
+from app.db.session import Base
 
 
 def main() -> None:
-    with engine.connect() as connection:
+    with Base.engine.connect() as connection:
         print("Connected to database:", connection.engine.url)
 
-    Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=Base.engine)
     print("Tables created or already present.")
 
-    with SessionLocal() as db:
+    with Base.SessionLocal() as db:
         record = create_record(
             db,
             external_id="smoke-test-001",
             source_text="I was charged twice for my monthly subscription.",
-            language="en",
+            source_language="en",
             gold_label={"issue_type": "billing"},
         )
         print(f"Inserted record id={record.id}, external_id={record.external_id}")
@@ -52,7 +49,7 @@ def main() -> None:
             {
                 "id": fetched.id,
                 "external_id": fetched.external_id,
-                "language": fetched.language,
+                "source_language": fetched.source_language,
                 "source_text": fetched.source_text,
             }
         )

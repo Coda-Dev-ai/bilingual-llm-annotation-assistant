@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-sqlalchemy
+SQLAlchemy
 psycopg2-binary
 pydantic
 pydantic-settings
@@ -11,3 +11,4 @@ python-dotenv
 alembic
 pytest
 jupyter
+pylint

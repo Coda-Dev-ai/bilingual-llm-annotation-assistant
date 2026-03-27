@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import os
 
 from sqlalchemy import create_engine
@@ -11,10 +9,7 @@ def get_database_url() -> str:
     """Return the configured database URL from the environment variable.
     
     Local MVP fallback: If DATABASE_URL is not set, default to a local SQLite database."""
-    database_url = os.getenv("DATABASE_URL")
-    if not database_url:
-        database_url = FALLBACK_DATABASE_URL
-        raise ValueError("DATABASE_URL environment variable is not set. Using fallback SQLite database for local MVP.")
+    database_url = os.getenv("DATABASE_URL", FALLBACK_DATABASE_URL)
         
     return database_url
 

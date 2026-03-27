@@ -1,30 +1,25 @@
 """Basic CRUD helpers for the local MVP database layer."""
-
-from __future__ import annotations
+from app.db.models import AnnotationResult, InputRecord, ReviewQueueItem
 
 from typing import Any
 
-from sqlalchemy import select, update, delete
+from sqlalchemy import select
 from sqlalchemy.orm import Session, selectinload
 
-try: 
-    from .models import AnnotationResult, InputRecord, ReviewQueueItem
-except ImportError: # pragma: no cover
-    from models import AnnotationResult, InputRecord, ReviewQueueItem
 
 def create_record(
-        db: Session, 
-        *, 
+        db: Session,
+        *,
         external_id: str,
         source_text: str,
-        language: str | None = None,
+        source_language: str | None = None,
         gold_label: dict[str, Any] | None = None
 ) -> InputRecord:
     """Create a new input record in the database."""
     record = InputRecord(
         external_id=external_id,
         source_text=source_text,
-        language=language,
+        source_language=source_language,
         gold_label=gold_label
     )
     db.add(record)
@@ -33,8 +28,8 @@ def create_record(
     return record
 
 def save_annotation(
-        db: Session, 
-        *, 
+        db: Session,
+        *,
         input_record_id: int,
         language: str,
         issue_type: str,
@@ -48,7 +43,7 @@ def save_annotation(
         model_name: str | None = None,
         raw_response: dict[str, Any] | None = None
 ) -> AnnotationResult:
-    """Save a new annotation result in the database and create a corresponding review queue item if human review is needed."""
+    """Save a new annotation result in the database and create a corresponding review queue item if needed."""
     annotation = AnnotationResult(
         input_record_id=input_record_id,
         language=language,
