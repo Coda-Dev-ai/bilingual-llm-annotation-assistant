@@ -1,7 +1,10 @@
 import os
 
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
+
+load_dotenv()
 
 FALLBACK_DATABASE_URL = "sqlite:///./bilingual_annotation_local_mvp.db"  # Local SQLite fallback for MVP
 
