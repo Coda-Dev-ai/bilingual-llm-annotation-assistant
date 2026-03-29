@@ -1,0 +1,6 @@
+external_id,text,language
+smoke-test-001,"I was charged twice for my monthly subscription.",en
+smoke-test-002,"Bonjour, Je n'arrive plus à accéder à mon compte depuis hier.",fr
+smoke-test-003,"My order arrived late and the box was damaged.",English
+smoke-test-004,"Le colis est arrivé ouvert et il manque un article.",français
+smoke-test-005,"Please cancel my membership immediately.",en-CA
